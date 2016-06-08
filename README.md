@@ -95,7 +95,7 @@ More options at jitpack.io: https://jitpack.io/#fiskurgit/ChipCloud
 
 ##Licence
 
-Full licence here: https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE.md
+Full licence here: https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE
 
 In short:
 

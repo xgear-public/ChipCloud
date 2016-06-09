@@ -160,12 +160,6 @@ public class Chip extends TextView implements View.OnClickListener{
         selected = false;
     }
 
-    public interface ChipListener{
-        void chipSelected(int index);
-        void chipDeselected(int index);
-    }
-
-
     public static class ChipBuilder{
         int index;
         String label;

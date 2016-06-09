@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChipCloud extends FlowLayout implements Chip.ChipListener {
+public class ChipCloud extends FlowLayout implements ChipListener {
 
     private Context context;
     private int chipHeight;
@@ -19,7 +19,6 @@ public class ChipCloud extends FlowLayout implements Chip.ChipListener {
     private int selectTransitionMS = 750;
     private int deselectTransitionMS = 500;
 
-    private List<Object> objects = new ArrayList<>();
     private ChipListener chipListener;
 
     public ChipCloud(Context context) {
@@ -80,11 +79,9 @@ public class ChipCloud extends FlowLayout implements Chip.ChipListener {
         this.chipListener = chipListener;
     }
 
-    public void addObject(String label, Object object){
-        objects.add(object);
-
+    public void addChip(String label){
         Chip chip = new Chip.ChipBuilder()
-                .index(objects.size()-1)
+                .index(getChildCount())
                 .label(label)
                 .selectedColor(selectedColor)
                 .selectedFontColor(selectedFontColor)
@@ -107,7 +104,7 @@ public class ChipCloud extends FlowLayout implements Chip.ChipListener {
     @Override
     public void chipSelected(int index) {
 
-        for(int i = 0 ; i < objects.size() ; i++){
+        for(int i = 0 ; i < getChildCount() ; i++){
             Chip chip = (Chip) getChildAt(i);
             if(i != index){
                 chip.deselect();
@@ -115,19 +112,19 @@ public class ChipCloud extends FlowLayout implements Chip.ChipListener {
         }
 
         if(chipListener != null){
-            chipListener.chipSelected(index, objects.get(index));
+            chipListener.chipSelected(index);
         }
     }
 
     @Override
     public void chipDeselected(int index) {
         if(chipListener != null){
-            chipListener.chipDeselected(index, objects.get(index));
+            chipListener.chipDeselected(index);
         }
     }
 
     public boolean isSelected(int index){
-        if(index > 0 && index < objects.size()){
+        if(index > 0 && index < getChildCount()){
             Chip chip = (Chip) getChildAt(index);
             return chip.isSelected();
         }

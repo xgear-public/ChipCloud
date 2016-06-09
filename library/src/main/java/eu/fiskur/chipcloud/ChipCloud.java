@@ -115,7 +115,14 @@ public class ChipCloud extends FlowLayout implements Chip.ChipListener {
         }
 
         if(chipListener != null){
-            chipListener.chipSelected(objects.get(index));
+            chipListener.chipSelected(index, objects.get(index));
+        }
+    }
+
+    @Override
+    public void chipDeselected(int index) {
+        if(chipListener != null){
+            chipListener.chipDeselected(index, objects.get(index));
         }
     }
 

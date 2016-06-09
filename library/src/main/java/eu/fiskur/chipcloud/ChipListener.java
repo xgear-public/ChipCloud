@@ -1,5 +1,6 @@
 package eu.fiskur.chipcloud;
 
 public interface ChipListener {
-    void chipSelected(Object object);
+    void chipSelected(int index, Object object);
+    void chipDeselected(int index, Object object);
 }

@@ -38,13 +38,17 @@ new ChipCloud.ChipCloudBuilder()
         .chipCloud(chipCloud)
         .selectedColor(Color.parseColor("#ff00cc"))
         .selectedFontColor(Color.parseColor("#ffffff"))
-        .unselectedColor(Color.parseColor("#e1e1e1"))
-        .unselectedFontColor(Color.parseColor("#333333"))
+        .deselectedColor(Color.parseColor("#e1e1e1"))
+        .deselectedFontColor(Color.parseColor("#333333"))
         .selectTransitionMS(500)
         .deselectTransitionMS(250)
         .chipListener(new ChipListener() {
             @Override
             public void chipSelected(int index) {
+                //...
+            }
+            @Override
+            public void chipDeselected(int index) {
                 //...
             }
         })

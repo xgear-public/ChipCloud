@@ -119,6 +119,14 @@ public class ChipCloud extends FlowLayout implements Chip.ChipListener {
         }
     }
 
+    public boolean isSelected(int index){
+        if(index > 0 && index < objects.size()){
+            Chip chip = (Chip) getChildAt(index);
+            return chip.isSelected();
+        }
+        return false;
+    }
+
     public static class ChipCloudBuilder{
         ChipCloud chipCloud;
         int selectedColor = -1;

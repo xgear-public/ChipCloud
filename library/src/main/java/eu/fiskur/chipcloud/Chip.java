@@ -111,6 +111,9 @@ public class Chip extends TextView implements View.OnClickListener{
         if(selected){
             //set as unselected
             unselect();
+            if(listener != null){
+                listener.chipDeselected(index);
+            }
         }else{
             //set as selected
             crossfader.startTransition(selectTransitionMS);
@@ -159,6 +162,7 @@ public class Chip extends TextView implements View.OnClickListener{
 
     public interface ChipListener{
         void chipSelected(int index);
+        void chipDeselected(int index);
     }
 
 

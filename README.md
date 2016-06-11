@@ -1,10 +1,12 @@
 # ChipCloud
 [![Release](https://jitpack.io/v/fiskurgit/ChipCloud.svg)](https://jitpack.io/#fiskurgit/ChipCloud) [![Build Status](https://travis-ci.org/fiskurgit/ChipCloud.svg?branch=master)](https://travis-ci.org/fiskurgit/ChipCloud) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE)
 
-ChipCloud is an Android view (very) quickly knocked up for a larger hackathon project, it creates a wrapping cloud of single choice '[Chips](https://www.google.com/design/spec/components/chips.html)' (see screenshot below).  
-  
+ChipCloud is an Android view (very) quickly knocked up for a larger hackathon project, it creates a wrapping cloud of single choice '[Chips](https://www.google.com/design/spec/components/chips.html)'
+
 Basic demo available on the Play Store:  
 <a href="https://play.google.com/store/apps/details?id=eu.fiskur.chipclouddemo&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" width=175 /></a>
+
+![Trainer Sizes](images/trainer_sizes.png)
 
 ## Usage
 
@@ -93,9 +95,6 @@ dependencies {
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/ChipCloud/releases
 
 More options at jitpack.io: https://jitpack.io/#fiskurgit/ChipCloud
-
-##Screenshots
-![Trainer Sizes](images/trainer_sizes.png)
 
 ##Licence
 

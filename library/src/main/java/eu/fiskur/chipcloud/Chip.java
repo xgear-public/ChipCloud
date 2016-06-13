@@ -13,13 +13,10 @@ import android.widget.TextView;
 
 public class Chip extends TextView implements View.OnClickListener{
 
-    private Context context;
     private int index = -1;
     private boolean selected = false;
     private ChipListener listener = null;
-    private int selectedColor = -1;
     private int selectedFontColor = -1;
-    private int unselectedColor = -1;
     private int unselectedFontColor = -1;
     private Drawable selectedDrawable;
     private Drawable unselectedDrawable;
@@ -54,11 +51,8 @@ public class Chip extends TextView implements View.OnClickListener{
                          int unselectedColor,
                          int unselectedFontColor){
 
-        this.context = context;
         this.index = index;
-        this.selectedColor = selectedColor;
         this.selectedFontColor = selectedFontColor;
-        this.unselectedColor = unselectedColor;
         this.unselectedFontColor = unselectedFontColor;
 
         selectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);

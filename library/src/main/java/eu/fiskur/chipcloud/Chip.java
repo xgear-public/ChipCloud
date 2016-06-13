@@ -1,7 +1,6 @@
 package eu.fiskur.chipcloud;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -69,7 +68,7 @@ public class Chip extends TextView implements View.OnClickListener{
         selectedDrawable.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
         if(selectedFontColor == -1){
-            selectedFontColor = ContextCompat.getColor(context, R.color.white);
+            this.selectedFontColor = ContextCompat.getColor(context, R.color.white);
         }
 
         unselectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
@@ -79,7 +78,7 @@ public class Chip extends TextView implements View.OnClickListener{
         unselectedDrawable.setColorFilter(new PorterDuffColorFilter(unselectedColor, PorterDuff.Mode.MULTIPLY));
 
         if(unselectedFontColor == -1){
-            unselectedFontColor = ContextCompat.getColor(context, R.color.chip);
+            this.unselectedFontColor = ContextCompat.getColor(context, R.color.chip);
         }
 
         Drawable backgrounds[] = new Drawable[2];
@@ -161,15 +160,15 @@ public class Chip extends TextView implements View.OnClickListener{
     }
 
     public static class ChipBuilder{
-        int index;
-        String label;
-        int selectedColor;
-        int selectedFontColor;
-        int unselectedColor;
-        int unselectedFontColor;
-        int chipHeight;
-        int selectTransitionMS = 750;
-        int deselectTransitionMS = 500;
+        private int index;
+        private String label;
+        private int selectedColor;
+        private int selectedFontColor;
+        private int unselectedColor;
+        private int unselectedFontColor;
+        private int chipHeight;
+        private int selectTransitionMS = 750;
+        private int deselectTransitionMS = 500;
 
         ChipListener chipListener;
 

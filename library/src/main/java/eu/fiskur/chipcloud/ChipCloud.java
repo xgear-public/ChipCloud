@@ -3,10 +3,6 @@ package eu.fiskur.chipcloud;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChipCloud extends FlowLayout implements ChipListener {
 
@@ -132,14 +128,14 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     }
 
     public static class ChipCloudBuilder{
-        ChipCloud chipCloud;
-        int selectedColor = -1;
-        int selectedFontColor = -1;
-        int deselectedColor = -1;
-        int deselectedFontColor = -1;
-        int selectTransitionMS = 750;
-        int deselectTransitionMS = 500;
-        ChipListener chipListener;
+        private ChipCloud chipCloud;
+        private int selectedColor = -1;
+        private int selectedFontColor = -1;
+        private int deselectedColor = -1;
+        private int deselectedFontColor = -1;
+        private int selectTransitionMS = 750;
+        private int deselectTransitionMS = 500;
+        private ChipListener chipListener;
 
         public ChipCloudBuilder chipCloud(ChipCloud chipCloud) {
             this.chipCloud = chipCloud;

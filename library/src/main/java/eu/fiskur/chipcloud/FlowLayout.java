@@ -93,10 +93,7 @@ public class FlowLayout extends ViewGroup {
 
     @Override
     protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
-        if (p instanceof LayoutParams) {
-            return true;
-        }
-        return false;
+        return p instanceof LayoutParams;
     }
 
     @Override

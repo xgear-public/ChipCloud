@@ -75,13 +75,8 @@ public class FlowLayout extends ViewGroup {
         }
         this.line_height = line_height;
 
-        if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED) {
+        if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED || (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST && ypos + line_height < height)) {
             height = ypos + line_height;
-
-        } else if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST) {
-            if (ypos + line_height < height) {
-                height = ypos + line_height;
-            }
         }
         setMeasuredDimension(width, height);
     }

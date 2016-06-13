@@ -18,8 +18,6 @@ public class Chip extends TextView implements View.OnClickListener{
     private ChipListener listener = null;
     private int selectedFontColor = -1;
     private int unselectedFontColor = -1;
-    private Drawable selectedDrawable;
-    private Drawable unselectedDrawable;
     private TransitionDrawable crossfader;
     private int selectTransitionMS = 750;
     private int deselectTransitionMS = 500;
@@ -55,7 +53,7 @@ public class Chip extends TextView implements View.OnClickListener{
         this.selectedFontColor = selectedFontColor;
         this.unselectedFontColor = unselectedFontColor;
 
-        selectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
+        Drawable selectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
 
 
         if(selectedColor == -1){
@@ -68,7 +66,7 @@ public class Chip extends TextView implements View.OnClickListener{
             this.selectedFontColor = ContextCompat.getColor(context, R.color.white);
         }
 
-        unselectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
+        Drawable unselectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
         if(unselectedColor == -1){
             unselectedDrawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.light_grey), PorterDuff.Mode.MULTIPLY));
         }else{

@@ -56,10 +56,13 @@ public class Chip extends TextView implements View.OnClickListener{
         this.unselectedFontColor = unselectedFontColor;
 
         selectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
+
+
         if(selectedColor == -1){
-            selectedColor = ContextCompat.getColor(context, R.color.dark_grey);
+            selectedDrawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.dark_grey), PorterDuff.Mode.MULTIPLY));
+        }else{
+            selectedDrawable.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
         }
-        selectedDrawable.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
         if(selectedFontColor == -1){
             this.selectedFontColor = ContextCompat.getColor(context, R.color.white);
@@ -67,9 +70,11 @@ public class Chip extends TextView implements View.OnClickListener{
 
         unselectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
         if(unselectedColor == -1){
-            unselectedColor = ContextCompat.getColor(context, R.color.light_grey);
+            unselectedDrawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.light_grey), PorterDuff.Mode.MULTIPLY));
+        }else{
+            unselectedDrawable.setColorFilter(new PorterDuffColorFilter(unselectedColor, PorterDuff.Mode.MULTIPLY));
         }
-        unselectedDrawable.setColorFilter(new PorterDuffColorFilter(unselectedColor, PorterDuff.Mode.MULTIPLY));
+
 
         if(unselectedFontColor == -1){
             this.unselectedFontColor = ContextCompat.getColor(context, R.color.chip);
@@ -164,7 +169,7 @@ public class Chip extends TextView implements View.OnClickListener{
         private int selectTransitionMS = 750;
         private int deselectTransitionMS = 500;
 
-        ChipListener chipListener;
+        private ChipListener chipListener;
 
         public ChipBuilder index(int index){
             this.index = index;

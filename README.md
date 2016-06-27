@@ -34,7 +34,7 @@ or in code:
 ```java
 ChipCloud chipCloud = (ChipCloud) findViewById(R.id.chip_cloud);
 
-new ChipCloud.ChipCloudBuilder()
+new ChipCloud.Configure()
         .chipCloud(chipCloud)
         .selectedColor(Color.parseColor("#ff00cc"))
         .selectedFontColor(Color.parseColor("#ffffff"))

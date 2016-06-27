@@ -142,7 +142,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         return false;
     }
 
-    public static class ChipCloudBuilder{
+    public static class Configure {
         private ChipCloud chipCloud;
         private int selectedColor = -1;
         private int selectedFontColor = -1;
@@ -153,47 +153,47 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         boolean singleChoice = true;
         private ChipListener chipListener;
 
-        public ChipCloudBuilder chipCloud(ChipCloud chipCloud) {
+        public Configure chipCloud(ChipCloud chipCloud) {
             this.chipCloud = chipCloud;
             return this;
         }
 
-        public ChipCloudBuilder selectedColor(int selectedColor) {
+        public Configure selectedColor(int selectedColor) {
             this.selectedColor = selectedColor;
             return this;
         }
 
-        public ChipCloudBuilder selectedFontColor(int selectedFontColor) {
+        public Configure selectedFontColor(int selectedFontColor) {
             this.selectedFontColor = selectedFontColor;
             return this;
         }
 
-        public ChipCloudBuilder deselectedColor(int deselectedColor) {
+        public Configure deselectedColor(int deselectedColor) {
             this.deselectedColor = deselectedColor;
             return this;
         }
 
-        public ChipCloudBuilder deselectedFontColor(int deselectedFontColor) {
+        public Configure deselectedFontColor(int deselectedFontColor) {
             this.deselectedFontColor = deselectedFontColor;
             return this;
         }
 
-        public ChipCloudBuilder selectTransitionMS(int selectTransitionMS) {
+        public Configure selectTransitionMS(int selectTransitionMS) {
             this.selectTransitionMS = selectTransitionMS;
             return this;
         }
 
-        public ChipCloudBuilder deselectTransitionMS(int deselectTransitionMS) {
+        public Configure deselectTransitionMS(int deselectTransitionMS) {
             this.deselectTransitionMS = deselectTransitionMS;
             return this;
         }
 
-        public ChipCloudBuilder singleChoice(boolean singleChoice){
+        public Configure singleChoice(boolean singleChoice){
             this.singleChoice = singleChoice;
             return this;
         }
 
-        public ChipCloudBuilder chipListener(ChipListener chipListener) {
+        public Configure chipListener(ChipListener chipListener) {
             this.chipListener = chipListener;
             return this;
         }

@@ -113,7 +113,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     @Override
     public void chipSelected(int index) {
 
-        if(!singleChoice) {
+        if(singleChoice) {
             for (int i = 0; i < getChildCount(); i++) {
                 Chip chip = (Chip) getChildAt(i);
                 if (i != index) {

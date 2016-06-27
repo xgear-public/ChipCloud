@@ -150,7 +150,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         private int deselectedFontColor = -1;
         private int selectTransitionMS = 750;
         private int deselectTransitionMS = 500;
-        boolean singleChoice = true;
+        private boolean singleChoice = true;
         private ChipListener chipListener;
 
         public Configure chipCloud(ChipCloud chipCloud) {

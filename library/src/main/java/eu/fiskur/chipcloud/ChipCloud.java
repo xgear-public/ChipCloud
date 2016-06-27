@@ -141,7 +141,8 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         }
         return false;
     }
-
+    
+    //Apparently using the builder pattern to configure an object has been labelled a 'Bloch Builder'.
     public static class Configure {
         private ChipCloud chipCloud;
         private int selectedColor = -1;

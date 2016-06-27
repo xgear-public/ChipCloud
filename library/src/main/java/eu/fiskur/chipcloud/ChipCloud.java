@@ -205,6 +205,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
             chipCloud.setUnselectedFontColor(deselectedFontColor);
             chipCloud.setSelectTransitionMS(selectTransitionMS);
             chipCloud.setDeselectTransitionMS(deselectTransitionMS);
+            chipCloud.setSingleChoice(singleChoice);
             chipCloud.setChipListener(chipListener);
         }
     }

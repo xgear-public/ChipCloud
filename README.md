@@ -27,7 +27,8 @@ Configure in xml:
     chipcloud:selectedColor="@color/selected_color"
     chipcloud:selectedFontColor="@color/selected_font_color"
     chipcloud:deselectTransitionMS="500"
-    chipcloud:selectTransitionMS="750"/>
+    chipcloud:selectTransitionMS="750"
+    chipcloud:singleChoice="false"/>
 ```
 or in code:  
 ```java
@@ -41,6 +42,7 @@ new ChipCloud.ChipCloudBuilder()
         .deselectedFontColor(Color.parseColor("#333333"))
         .selectTransitionMS(500)
         .deselectTransitionMS(250)
+        .singleChoice(false)
         .chipListener(new ChipListener() {
             @Override
             public void chipSelected(int index) {
@@ -86,7 +88,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:ChipCloud:2.0.3'
+    compile 'com.github.fiskurgit:ChipCloud:2.0.4'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/ChipCloud/releases

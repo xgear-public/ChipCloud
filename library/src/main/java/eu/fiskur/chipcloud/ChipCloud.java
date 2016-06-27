@@ -14,6 +14,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     private int unselectedFontColor = -1;
     private int selectTransitionMS = 750;
     private int deselectTransitionMS = 500;
+    private boolean singleChoice;
 
     private ChipListener chipListener;
 
@@ -36,6 +37,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
             unselectedFontColor = a.getColor(R.styleable.ChipCloud_deselectedFontColor, -1);
             selectTransitionMS = a.getInt(R.styleable.ChipCloud_selectTransitionMS, 750);
             deselectTransitionMS = a.getInt(R.styleable.ChipCloud_deselectTransitionMS, 500);
+            singleChoice = a.getBoolean(R.styleable.ChipCloud_singleChoice, true);
         } finally {
             a.recycle();
         }
@@ -45,6 +47,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
 
     private void init(){
         chipHeight = (int) (28 * getResources().getDisplayMetrics().density + 0.5f);
+        singleChoice = true;
     }
 
     public void setSelectedColor(int selectedColor){
@@ -69,6 +72,16 @@ public class ChipCloud extends FlowLayout implements ChipListener {
 
     public void setDeselectTransitionMS(int deselectTransitionMS){
         this.deselectTransitionMS = deselectTransitionMS;
+    }
+
+    public void setSingleChoice(boolean singleChoice){
+        this.singleChoice = singleChoice;
+        if(singleChoice){
+            for (int i = 0; i < getChildCount(); i++) {
+                Chip chip = (Chip) getChildAt(i);
+                chip.deselect();
+            }
+        }
     }
 
     public void setChipListener(ChipListener chipListener){
@@ -100,10 +113,12 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     @Override
     public void chipSelected(int index) {
 
-        for(int i = 0 ; i < getChildCount() ; i++){
-            Chip chip = (Chip) getChildAt(i);
-            if(i != index){
-                chip.deselect();
+        if(!singleChoice) {
+            for (int i = 0; i < getChildCount(); i++) {
+                Chip chip = (Chip) getChildAt(i);
+                if (i != index) {
+                    chip.deselect();
+                }
             }
         }
 
@@ -135,6 +150,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         private int deselectedFontColor = -1;
         private int selectTransitionMS = 750;
         private int deselectTransitionMS = 500;
+        boolean singleChoice = true;
         private ChipListener chipListener;
 
         public ChipCloudBuilder chipCloud(ChipCloud chipCloud) {
@@ -169,6 +185,11 @@ public class ChipCloud extends FlowLayout implements ChipListener {
 
         public ChipCloudBuilder deselectTransitionMS(int deselectTransitionMS) {
             this.deselectTransitionMS = deselectTransitionMS;
+            return this;
+        }
+
+        public ChipCloudBuilder singleChoice(boolean singleChoice){
+            this.singleChoice = singleChoice;
             return this;
         }
 

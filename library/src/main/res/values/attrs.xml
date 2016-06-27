@@ -7,5 +7,6 @@
         <attr name="selectedFontColor" format="color" />
         <attr name="selectTransitionMS" format="integer" />
         <attr name="deselectTransitionMS" format="integer" />
+        <attr name="singleChoice" format="boolean" />
     </declare-styleable>
 </resources>

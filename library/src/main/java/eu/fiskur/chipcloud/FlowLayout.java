@@ -1,6 +1,7 @@
 package eu.fiskur.chipcloud;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,11 @@ public class FlowLayout extends ViewGroup {
   }
 
   @Override protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
-    return new LayoutParams(20, 30); // default of 1px spacing
+    return new LayoutParams(dpToPx(7), dpToPx(7));
+  }
+
+  public static int dpToPx(int dp) {
+    return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
   }
 
   @Override protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {

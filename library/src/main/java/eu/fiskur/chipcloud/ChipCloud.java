@@ -6,6 +6,10 @@ import android.util.AttributeSet;
 
 public class ChipCloud extends FlowLayout implements ChipListener {
 
+  public enum Mode {
+    SINGLE, MULTI, REQUIRED
+  }
+
   private Context context;
   private int chipHeight;
   private int selectedColor = -1;
@@ -14,7 +18,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
   private int unselectedFontColor = -1;
   private int selectTransitionMS = 750;
   private int deselectTransitionMS = 500;
-  private boolean singleChoice;
+  private Mode mode = Mode.SINGLE;
 
   private ChipListener chipListener;
 
@@ -29,7 +33,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     this.context = context;
 
     TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ChipCloud, 0, 0);
-
+    int arrayReference = -1;
     try {
       selectedColor = a.getColor(R.styleable.ChipCloud_selectedColor, -1);
       selectedFontColor = a.getColor(R.styleable.ChipCloud_selectedFontColor, -1);
@@ -37,17 +41,36 @@ public class ChipCloud extends FlowLayout implements ChipListener {
       unselectedFontColor = a.getColor(R.styleable.ChipCloud_deselectedFontColor, -1);
       selectTransitionMS = a.getInt(R.styleable.ChipCloud_selectTransitionMS, 750);
       deselectTransitionMS = a.getInt(R.styleable.ChipCloud_deselectTransitionMS, 500);
-      singleChoice = a.getBoolean(R.styleable.ChipCloud_singleChoice, true);
+      int selectMode = a.getInt(R.styleable.ChipCloud_selectMode, 1);
+      switch(selectMode){
+        case 0:
+          mode = Mode.SINGLE;
+          break;
+        case 1:
+          mode = Mode.MULTI;
+          break;
+        case 2:
+          mode = Mode.REQUIRED;
+          break;
+        default:
+          mode = Mode.SINGLE;
+      }
+      arrayReference = a.getResourceId(R.styleable.ChipCloud_labels, -1);
+
     } finally {
       a.recycle();
     }
 
     init();
+
+    if(arrayReference != -1){
+      String[] labels = getResources().getStringArray(arrayReference);
+      addChips(labels);
+    }
   }
 
   private void init() {
     chipHeight = (int) (28 * getResources().getDisplayMetrics().density + 0.5f);
-    singleChoice = true;
   }
 
   public void setSelectedColor(int selectedColor) {
@@ -74,18 +97,23 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     this.deselectTransitionMS = deselectTransitionMS;
   }
 
-  public void setSingleChoice(boolean singleChoice) {
-    this.singleChoice = singleChoice;
-    if (singleChoice) {
-      for (int i = 0; i < getChildCount(); i++) {
-        Chip chip = (Chip) getChildAt(i);
-        chip.deselect();
-      }
+  public void setMode(Mode mode){
+    this.mode = mode;
+    for (int i = 0; i < getChildCount(); i++) {
+      Chip chip = (Chip) getChildAt(i);
+      chip.deselect();
+      chip.setLocked(false);
     }
   }
 
   public void setChipListener(ChipListener chipListener) {
     this.chipListener = chipListener;
+  }
+
+  public void addChips(String[] labels){
+    for(String label : labels){
+      addChip(label);
+    }
   }
 
   public void addChip(String label) {
@@ -107,17 +135,35 @@ public class ChipCloud extends FlowLayout implements ChipListener {
   public void setSelectedChip(int index) {
     Chip chip = (Chip) getChildAt(index);
     chip.select();
+    if(mode == Mode.REQUIRED){
+      for (int i = 0; i < getChildCount(); i++) {
+        Chip chipp = (Chip) getChildAt(i);
+        if (i == index) {
+          chipp.setLocked(true);
+        }else{
+          chipp.setLocked(false);
+        }
+      }
+    }
   }
 
   @Override public void chipSelected(int index) {
 
-    if (singleChoice) {
-      for (int i = 0; i < getChildCount(); i++) {
-        Chip chip = (Chip) getChildAt(i);
-        if (i != index) {
-          chip.deselect();
+    switch(mode){
+      case SINGLE:
+      case REQUIRED:
+        for (int i = 0; i < getChildCount(); i++) {
+          Chip chip = (Chip) getChildAt(i);
+          if (i == index) {
+            if(mode == Mode.REQUIRED) chip.setLocked(true);
+          }else{
+            chip.deselect();
+            chip.setLocked(false);
+          }
         }
-      }
+        break;
+      default:
+        //
     }
 
     if (chipListener != null) {
@@ -146,13 +192,19 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     private int selectedFontColor = -1;
     private int deselectedColor = -1;
     private int deselectedFontColor = -1;
-    private int selectTransitionMS = 750;
-    private int deselectTransitionMS = 500;
-    private boolean singleChoice = true;
+    private int selectTransitionMS = -1;
+    private int deselectTransitionMS = -1;
+    private Mode mode = null;
+    private String[] labels = null;
     private ChipListener chipListener;
 
     public Configure chipCloud(ChipCloud chipCloud) {
       this.chipCloud = chipCloud;
+      return this;
+    }
+
+    public Configure mode(Mode mode) {
+      this.mode = mode;
       return this;
     }
 
@@ -186,8 +238,8 @@ public class ChipCloud extends FlowLayout implements ChipListener {
       return this;
     }
 
-    public Configure singleChoice(boolean singleChoice) {
-      this.singleChoice = singleChoice;
+    public Configure labels(String[] labels) {
+      this.labels = labels;
       return this;
     }
 
@@ -197,14 +249,15 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     }
 
     public void build() {
-      chipCloud.setSelectedColor(selectedColor);
-      chipCloud.setSelectedFontColor(selectedFontColor);
-      chipCloud.setUnselectedColor(deselectedColor);
-      chipCloud.setUnselectedFontColor(deselectedFontColor);
-      chipCloud.setSelectTransitionMS(selectTransitionMS);
-      chipCloud.setDeselectTransitionMS(deselectTransitionMS);
-      chipCloud.setSingleChoice(singleChoice);
+      if(mode != null) chipCloud.setMode(mode);
+      if(selectedColor != -1) chipCloud.setSelectedColor(selectedColor);
+      if(selectedFontColor != -1) chipCloud.setSelectedFontColor(selectedFontColor);
+      if(deselectedColor != -1) chipCloud.setUnselectedColor(deselectedColor);
+      if(deselectedFontColor != -1) chipCloud.setUnselectedFontColor(deselectedFontColor);
+      if(selectTransitionMS != -1) chipCloud.setSelectTransitionMS(selectTransitionMS);
+      if(deselectTransitionMS != -1) chipCloud.setDeselectTransitionMS(deselectTransitionMS);
       chipCloud.setChipListener(chipListener);
+      chipCloud.addChips(labels);
     }
   }
 }

@@ -7,6 +7,11 @@
         <attr name="selectedFontColor" format="color" />
         <attr name="selectTransitionMS" format="integer" />
         <attr name="deselectTransitionMS" format="integer" />
-        <attr name="singleChoice" format="boolean" />
+        <attr name="selectMode">
+            <enum name="single" value="0" />
+            <enum name="multi" value="1" />
+            <enum name="required" value="2" />
+        </attr>
+        <attr name="labels" format="reference"/>
     </declare-styleable>
 </resources>

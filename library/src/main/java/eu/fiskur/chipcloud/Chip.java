@@ -21,6 +21,7 @@ public class Chip extends TextView implements View.OnClickListener {
   private TransitionDrawable crossfader;
   private int selectTransitionMS = 750;
   private int deselectTransitionMS = 500;
+  private boolean isLocked = false;
 
   public void setChipListener(ChipListener listener) {
     this.listener = listener;
@@ -50,12 +51,9 @@ public class Chip extends TextView implements View.OnClickListener {
     Drawable selectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
 
     if (selectedColor == -1) {
-      selectedDrawable.setColorFilter(
-          new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.dark_grey),
-              PorterDuff.Mode.MULTIPLY));
+      selectedDrawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.dark_grey), PorterDuff.Mode.MULTIPLY));
     } else {
-      selectedDrawable.setColorFilter(
-          new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
+      selectedDrawable.setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
     }
 
     if (selectedFontColor == -1) {
@@ -64,12 +62,9 @@ public class Chip extends TextView implements View.OnClickListener {
 
     Drawable unselectedDrawable = ContextCompat.getDrawable(context, R.drawable.chip_selected);
     if (unselectedColor == -1) {
-      unselectedDrawable.setColorFilter(
-          new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.light_grey),
-              PorterDuff.Mode.MULTIPLY));
+      unselectedDrawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(context, R.color.light_grey), PorterDuff.Mode.MULTIPLY));
     } else {
-      unselectedDrawable.setColorFilter(
-          new PorterDuffColorFilter(unselectedColor, PorterDuff.Mode.MULTIPLY));
+      unselectedDrawable.setColorFilter(new PorterDuffColorFilter(unselectedColor, PorterDuff.Mode.MULTIPLY));
     }
 
     if (unselectedFontColor == -1) {
@@ -96,6 +91,10 @@ public class Chip extends TextView implements View.OnClickListener {
     unselect();
   }
 
+  public void setLocked(boolean isLocked){
+    this.isLocked = isLocked;
+  }
+
   public void setSelectTransitionMS(int selectTransitionMS) {
     this.selectTransitionMS = selectTransitionMS;
   }
@@ -109,13 +108,13 @@ public class Chip extends TextView implements View.OnClickListener {
   }
 
   @Override public void onClick(View v) {
-    if (selected) {
+    if (selected && !isLocked) {
       //set as unselected
       unselect();
       if (listener != null) {
         listener.chipDeselected(index);
       }
-    } else {
+    } else if (!selected) {
       //set as selected
       crossfader.startTransition(selectTransitionMS);
 
@@ -129,8 +128,8 @@ public class Chip extends TextView implements View.OnClickListener {
   }
 
   public void select() {
+    selected = true;
     crossfader.startTransition(selectTransitionMS);
-
     setTextColor(selectedFontColor);
     if (listener != null) {
       listener.chipSelected(index);
@@ -225,8 +224,7 @@ public class Chip extends TextView implements View.OnClickListener {
 
     public Chip build(Context context) {
       Chip chip = (Chip) LayoutInflater.from(context).inflate(R.layout.chip, null);
-      chip.initChip(context, index, label, selectedColor, selectedFontColor, unselectedColor,
-          unselectedFontColor);
+      chip.initChip(context, index, label, selectedColor, selectedFontColor, unselectedColor, unselectedFontColor);
       chip.setSelectTransitionMS(selectTransitionMS);
       chip.setDeselectTransitionMS(deselectTransitionMS);
       chip.setChipListener(chipListener);

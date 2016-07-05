@@ -75,6 +75,12 @@ Real-world example for shoe sizes:
 
 ## Modes
 
+```java
+public enum Mode {
+  SINGLE, MULTI, REQUIRED
+}
+```
+
 The default mode is single choice (where it's valid to have no chip selected), if you want a RadioGroup manadatory style where once a chip is selected there must always be a selected item use ```chipCloud.setMode(ChipCloud.Mode.REQUIRED);``` (or set in xml or the builder). There's a multiple select mode too.
 
 ## Dependency

@@ -28,7 +28,8 @@ Configure in xml:
     chipcloud:selectedFontColor="@color/selected_font_color"
     chipcloud:deselectTransitionMS="500"
     chipcloud:selectTransitionMS="750"
-    chipcloud:singleChoice="false"/>
+    chipcloud:labels="@array/labels"
+    chipcloud:selectMode="required"/>
 ```
 or in code:  
 ```java
@@ -42,7 +43,8 @@ new ChipCloud.Configure()
         .deselectedFontColor(Color.parseColor("#333333"))
         .selectTransitionMS(500)
         .deselectTransitionMS(250)
-        .singleChoice(false)
+        .labels(someStringArray)
+        .mode(ChipCloud.Mode.MULTI)
         .chipListener(new ChipListener() {
             @Override
             public void chipSelected(int index) {
@@ -56,21 +58,26 @@ new ChipCloud.Configure()
         .build();
 ```
 
-Then add your items:
+Add items dynamically too:
 ```java
 chipCloud.addChip("Foo");
 chipCloud.addChip("Bar");
-```
 
-Which produces:  
-![Chip Cloud](images/foo_bar.png)
+//or
+
+chipCloud.addChips(someStringArray);
+```
 
 Set the selected index using ```chipCloud.setSelectedChip(2)```
 
 Real-world example for shoe sizes:  
 ![Shoe Sizes](images/wrapping_example.png)
 
-##Dependency
+## Modes
+
+The default mode is single choice with no selected chips being valid, if you want a RadioGroup manadatory style where once a chip is selected there must always be a selected chip use ```chipCloud.setMode(ChipCloud.Mode.REQUIRED);``` (or set in xml or the builder). There's a multi select mode too.
+
+## Dependency
 
 Add jitpack.io to your root build.gradle, eg:
 
@@ -88,7 +95,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:ChipCloud:2.0.6'
+    compile 'com.github.fiskurgit:ChipCloud:2.1.0'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/ChipCloud/releases

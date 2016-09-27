@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 public class ChipCloud extends FlowLayout implements ChipListener {
 
   public enum Mode {
-    SINGLE, MULTI, REQUIRED
+    SINGLE, MULTI, REQUIRED, NONE
   }
 
   private Context context;
@@ -51,6 +51,9 @@ public class ChipCloud extends FlowLayout implements ChipListener {
           break;
         case 2:
           mode = Mode.REQUIRED;
+          break;
+        case 3:
+          mode = Mode.NONE;
           break;
         default:
           mode = Mode.SINGLE;
@@ -127,6 +130,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         .deselectTransitionMS(deselectTransitionMS)
         .chipHeight(chipHeight)
         .chipListener(this)
+        .mode(mode)
         .build(context);
 
     addView(chip);

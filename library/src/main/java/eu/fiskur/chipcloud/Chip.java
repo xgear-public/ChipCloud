@@ -3,15 +3,16 @@ package eu.fiskur.chipcloud;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
-public class Chip extends TextView implements View.OnClickListener {
+public class Chip extends android.support.v7.widget.AppCompatTextView implements View.OnClickListener {
 
     private int index = -1;
     private boolean selected = false;
@@ -43,7 +44,9 @@ public class Chip extends TextView implements View.OnClickListener {
         init();
     }
 
-    public void initChip(Context context, int index, String label, int selectedColor, int selectedFontColor, int unselectedColor, int unselectedFontColor, ChipCloud.Mode mode) {
+    public void initChip(Context context, int index, String label, Typeface typeface, int textSizePx,
+                         boolean allCaps, int selectedColor, int selectedFontColor, int unselectedColor,
+                         int unselectedFontColor, ChipCloud.Mode mode) {
 
         this.index = index;
         this.selectedFontColor = selectedFontColor;
@@ -91,6 +94,14 @@ public class Chip extends TextView implements View.OnClickListener {
 
         setText(label);
         unselect();
+
+        if (typeface != null) {
+            setTypeface(typeface);
+        }
+        setAllCaps(allCaps);
+        if (textSizePx > 0) {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizePx);
+        }
     }
 
     public void setLocked(boolean isLocked) {
@@ -167,6 +178,9 @@ public class Chip extends TextView implements View.OnClickListener {
     public static class ChipBuilder {
         private int index;
         private String label;
+        private Typeface typeface;
+        private int textSizePx;
+        private boolean allCaps;
         private int selectedColor;
         private int selectedFontColor;
         private int unselectedColor;
@@ -208,6 +222,21 @@ public class Chip extends TextView implements View.OnClickListener {
             return this;
         }
 
+        public ChipBuilder typeface(Typeface typeface) {
+            this.typeface = typeface;
+            return this;
+        }
+
+        public ChipBuilder allCaps(boolean allCaps) {
+            this.allCaps = allCaps;
+            return this;
+        }
+
+        public ChipBuilder textSize(int textSizePx) {
+            this.textSizePx = textSizePx;
+            return this;
+        }
+
         public ChipBuilder chipHeight(int chipHeight) {
             this.chipHeight = chipHeight;
             return this;
@@ -235,7 +264,8 @@ public class Chip extends TextView implements View.OnClickListener {
 
         public Chip build(Context context) {
             Chip chip = (Chip) LayoutInflater.from(context).inflate(R.layout.chip, null);
-            chip.initChip(context, index, label, selectedColor, selectedFontColor, unselectedColor, unselectedFontColor, mode);
+            chip.initChip(context, index, label, typeface, textSizePx, allCaps, selectedColor,
+                    selectedFontColor, unselectedColor, unselectedFontColor, mode);
             chip.setSelectTransitionMS(selectTransitionMS);
             chip.setDeselectTransitionMS(deselectTransitionMS);
             chip.setChipListener(chipListener);
@@ -244,4 +274,3 @@ public class Chip extends TextView implements View.OnClickListener {
         }
     }
 }
-

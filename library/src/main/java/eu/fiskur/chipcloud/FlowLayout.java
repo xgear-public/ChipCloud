@@ -6,12 +6,20 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author RAW
  */
-public class FlowLayout extends ViewGroup {
+public abstract class FlowLayout extends ViewGroup {
 
   private int line_height;
+  private LayoutProcessor layoutProcessor = new LayoutProcessor();
+
+  enum Gravity {
+    LEFT, RIGHT, CENTER, STAGGERED
+  }
 
   public static class LayoutParams extends ViewGroup.LayoutParams {
 
@@ -86,7 +94,7 @@ public class FlowLayout extends ViewGroup {
   }
 
   public static int dpToPx(int dp) {
-    return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    return (int) (dp * Resources.getSystem().getDisplayMetrics().density + 0.5);
   }
 
   @Override protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
@@ -98,7 +106,7 @@ public class FlowLayout extends ViewGroup {
     final int width = r - l;
     int xpos = getPaddingLeft();
     int ypos = getPaddingTop();
-
+    layoutProcessor.setWidth(width);
     for (int i = 0; i < count; i++) {
       final View child = getChildAt(i);
       if (child.getVisibility() != GONE) {
@@ -108,11 +116,98 @@ public class FlowLayout extends ViewGroup {
         if (xpos + childw > width) {
           xpos = getPaddingLeft();
           ypos += line_height;
+          layoutProcessor.layoutPreviousRow();
         }
-        child.layout(xpos, ypos, xpos + childw, ypos + childh);
+        layoutProcessor.addViewForLayout(child, ypos, childw, childh);
         xpos += childw + lp.horizontal_spacing;
       }
     }
+    layoutProcessor.layoutPreviousRow();
+    layoutProcessor.clear();
+  }
+
+  protected abstract Gravity getGravity();
+
+  private class LayoutProcessor {
+
+    private int rowY;
+    private final List<View> viewsInCurrentRow;
+    private final List<Integer> viewWidths;
+    private final List<Integer> viewHeights;
+    private Integer horizontalSpacing;
+    private int width;
+
+    private LayoutProcessor() {
+      viewsInCurrentRow = new ArrayList<>();
+      viewWidths = new ArrayList<>();
+      viewHeights = new ArrayList<>();
+    }
+
+    void addViewForLayout(View view, int yPos, int childW, int childH) {
+      rowY = yPos;
+      viewsInCurrentRow.add(view);
+      viewWidths.add(childW);
+      viewHeights.add(childH);
+      if (horizontalSpacing == null) {
+        horizontalSpacing = ((LayoutParams) view.getLayoutParams()).horizontal_spacing;
+      }
+    }
+
+    void clear() {
+      viewsInCurrentRow.clear();
+      viewWidths.clear();
+      viewHeights.clear();
+    }
+
+    void layoutPreviousRow() {
+      Gravity gravity = getGravity();
+      switch (gravity) {
+        case LEFT:
+          int xPos = getPaddingLeft();
+          for (int i = 0; i < viewsInCurrentRow.size(); i++) {
+            viewsInCurrentRow.get(i).layout(xPos, rowY, xPos + viewWidths.get(i), rowY + viewHeights.get(i));
+            xPos += viewWidths.get(i) + horizontalSpacing;
+          }
+          break;
+        case RIGHT:
+          int xEnd = width - getPaddingRight();
+          for (int i = viewsInCurrentRow.size() - 1; i >= 0; i--) {
+            int xStart = xEnd - viewWidths.get(i);
+            viewsInCurrentRow.get(i).layout(xStart, rowY, xEnd, rowY + viewHeights.get(i));
+            xEnd = xStart - horizontalSpacing;
+          }
+          break;
+        case STAGGERED:
+          int totalWidthOfChildren = 0;
+          for (int i = 0; i < viewWidths.size(); i++) {
+            totalWidthOfChildren += viewWidths.get(i);
+          }
+          int horizontalSpacingForStaggered = (width - totalWidthOfChildren - getPaddingLeft()
+                  - getPaddingRight()) / (viewsInCurrentRow.size() + 1);
+          xPos = getPaddingLeft() + horizontalSpacingForStaggered;
+          for (int i = 0; i < viewsInCurrentRow.size(); i++) {
+            viewsInCurrentRow.get(i).layout(xPos, rowY, xPos + viewWidths.get(i), rowY + viewHeights.get(i));
+            xPos += viewWidths.get(i) + horizontalSpacingForStaggered;
+          }
+          break;
+        case CENTER:
+          totalWidthOfChildren = 0;
+          for (int i = 0; i < viewWidths.size(); i++) {
+            totalWidthOfChildren += viewWidths.get(i);
+          }
+          xPos = getPaddingLeft() + (width - getPaddingLeft() - getPaddingRight() -
+                  totalWidthOfChildren - (horizontalSpacing * (viewsInCurrentRow.size() - 1))) / 2;
+          for (int i = 0; i < viewsInCurrentRow.size(); i++) {
+            viewsInCurrentRow.get(i).layout(xPos, rowY, xPos + viewWidths.get(i), rowY + viewHeights.get(i));
+            xPos += viewWidths.get(i) + horizontalSpacing;
+          }
+          break;
+      }
+      clear();
+    }
+
+    void setWidth(int width) {
+      this.width = width;
+    }
   }
 }
-

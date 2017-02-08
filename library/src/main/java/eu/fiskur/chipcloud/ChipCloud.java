@@ -2,6 +2,7 @@ package eu.fiskur.chipcloud;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 public class ChipCloud extends FlowLayout implements ChipListener {
@@ -19,6 +20,12 @@ public class ChipCloud extends FlowLayout implements ChipListener {
   private int selectTransitionMS = 750;
   private int deselectTransitionMS = 500;
   private Mode mode = Mode.SINGLE;
+  private Gravity gravity = Gravity.LEFT;
+  private Typeface typeface;
+  private boolean allCaps;
+  private int textSizePx = -1;
+  private int verticalSpacing;
+  private int minHorizontalSpacing;
 
   private ChipListener chipListener;
 
@@ -41,6 +48,13 @@ public class ChipCloud extends FlowLayout implements ChipListener {
       unselectedFontColor = a.getColor(R.styleable.ChipCloud_deselectedFontColor, -1);
       selectTransitionMS = a.getInt(R.styleable.ChipCloud_selectTransitionMS, 750);
       deselectTransitionMS = a.getInt(R.styleable.ChipCloud_deselectTransitionMS, 500);
+      String typefaceString = a.getString(R.styleable.ChipCloud_typeface);
+      if (typefaceString != null) {
+        typeface = Typeface.createFromAsset(getContext().getAssets(), typefaceString);
+      }
+      textSizePx = a.getDimensionPixelSize(R.styleable.ChipCloud_textSize,
+              getResources().getDimensionPixelSize(R.dimen.default_textsize));
+      allCaps = a.getBoolean(R.styleable.ChipCloud_allCaps, false);
       int selectMode = a.getInt(R.styleable.ChipCloud_selectMode, 1);
       switch(selectMode){
         case 0:
@@ -58,6 +72,28 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         default:
           mode = Mode.SINGLE;
       }
+      int gravityType = a.getInt(R.styleable.ChipCloud_gravity, 0);
+      switch (gravityType) {
+        case 0:
+          gravity = Gravity.LEFT;
+          break;
+        case 1:
+          gravity = Gravity.RIGHT;
+          break;
+        case 2:
+          gravity = Gravity.CENTER;
+          break;
+        case 3:
+          gravity = Gravity.STAGGERED;
+          break;
+        default:
+          gravity = Gravity.LEFT;
+          break;
+      }
+      minHorizontalSpacing = a.getDimensionPixelSize(R.styleable.ChipCloud_minHorizontalSpacing,
+              getResources().getDimensionPixelSize(R.dimen.min_horizontal_spacing));
+      verticalSpacing = a.getDimensionPixelSize(R.styleable.ChipCloud_verticalSpacing,
+              getResources().getDimensionPixelSize(R.dimen.vertical_spacing));
       arrayReference = a.getResourceId(R.styleable.ChipCloud_labels, -1);
 
     } finally {
@@ -72,8 +108,23 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     }
   }
 
+  @Override
+  protected int getMinimumHorizontalSpacing() {
+    return minHorizontalSpacing;
+  }
+
+  @Override
+  protected int getVerticalSpacing() {
+    return verticalSpacing;
+  }
+
+  @Override
+  protected Gravity getGravity() {
+    return gravity;
+  }
+
   private void init() {
-    chipHeight = (int) (28 * getResources().getDisplayMetrics().density + 0.5f);
+    chipHeight = getResources().getDimensionPixelSize(R.dimen.material_chip_height);
   }
 
   public void setSelectedColor(int selectedColor) {
@@ -109,6 +160,22 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     }
   }
 
+  public void setGravity(Gravity gravity) {
+    this.gravity = gravity;
+  }
+
+  public void setTypeface(String typeface) {
+    this.typeface = Typeface.createFromAsset(getContext().getAssets(), typeface);
+  }
+
+  public void setTextSize(int textSize) {
+    this.textSizePx = textSize;
+  }
+
+  public void setAllCaps(boolean isAllCaps) {
+    this.allCaps = isAllCaps;
+  }
+
   public void setChipListener(ChipListener chipListener) {
     this.chipListener = chipListener;
   }
@@ -122,6 +189,9 @@ public class ChipCloud extends FlowLayout implements ChipListener {
   public void addChip(String label) {
     Chip chip = new Chip.ChipBuilder().index(getChildCount())
         .label(label)
+        .typeface(typeface)
+        .textSize(textSizePx)
+        .allCaps(allCaps)
         .selectedColor(selectedColor)
         .selectedFontColor(selectedFontColor)
         .unselectedColor(unselectedColor)
@@ -201,6 +271,10 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     private Mode mode = null;
     private String[] labels = null;
     private ChipListener chipListener;
+    private Gravity gravity = null;
+    private String typeface;
+    private Boolean allCaps = null;
+    private int textSize = -1;
 
     public Configure chipCloud(ChipCloud chipCloud) {
       this.chipCloud = chipCloud;
@@ -252,8 +326,35 @@ public class ChipCloud extends FlowLayout implements ChipListener {
       return this;
     }
 
+    public Configure gravity(Gravity gravity) {
+      this.gravity = gravity;
+      return this;
+    }
+
+    public Configure typeface(String typeface) {
+      this.typeface = typeface;
+      return this;
+    }
+
+    /**
+     * @param textSize value in pixels as obtained from @{@link android.content.res.Resources#getDimensionPixelSize(int)}
+     */
+    public Configure textSize(int textSize) {
+      this.textSize = textSize;
+      return this;
+    }
+
+    public Configure allCaps(boolean isAllCaps) {
+      this.allCaps = isAllCaps;
+      return this;
+    }
+
     public void build() {
       if(mode != null) chipCloud.setMode(mode);
+      if(gravity!= null) chipCloud.setGravity(gravity);
+      if(typeface!= null) chipCloud.setTypeface(typeface);
+      if(textSize != -1) chipCloud.setTextSize(textSize);
+      if(allCaps != null) chipCloud.setAllCaps(allCaps);
       if(selectedColor != -1) chipCloud.setSelectedColor(selectedColor);
       if(selectedFontColor != -1) chipCloud.setSelectedFontColor(selectedFontColor);
       if(deselectedColor != -1) chipCloud.setUnselectedColor(deselectedColor);

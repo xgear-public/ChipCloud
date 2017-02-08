@@ -24,6 +24,8 @@ public class ChipCloud extends FlowLayout implements ChipListener {
   private Typeface typeface;
   private boolean allCaps;
   private int textSizePx = -1;
+  private int verticalSpacing;
+  private int minHorizontalSpacing;
 
   private ChipListener chipListener;
 
@@ -88,6 +90,10 @@ public class ChipCloud extends FlowLayout implements ChipListener {
           gravity = Gravity.LEFT;
           break;
       }
+      minHorizontalSpacing = a.getDimensionPixelSize(R.styleable.ChipCloud_minHorizontalSpacing,
+              getResources().getDimensionPixelSize(R.dimen.min_horizontal_spacing));
+      verticalSpacing = a.getDimensionPixelSize(R.styleable.ChipCloud_verticalSpacing,
+              getResources().getDimensionPixelSize(R.dimen.vertical_spacing));
       arrayReference = a.getResourceId(R.styleable.ChipCloud_labels, -1);
 
     } finally {
@@ -100,6 +106,16 @@ public class ChipCloud extends FlowLayout implements ChipListener {
       String[] labels = getResources().getStringArray(arrayReference);
       addChips(labels);
     }
+  }
+
+  @Override
+  protected int getMinimumHorizontalSpacing() {
+    return minHorizontalSpacing;
+  }
+
+  @Override
+  protected int getVerticalSpacing() {
+    return verticalSpacing;
   }
 
   @Override

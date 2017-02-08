@@ -1,7 +1,6 @@
 package eu.fiskur.chipcloud;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,27 +13,11 @@ import java.util.List;
  */
 public abstract class FlowLayout extends ViewGroup {
 
-  private int line_height;
+  private int lineHeight;
   private LayoutProcessor layoutProcessor = new LayoutProcessor();
 
   enum Gravity {
     LEFT, RIGHT, CENTER, STAGGERED
-  }
-
-  public static class LayoutParams extends ViewGroup.LayoutParams {
-
-    public final int horizontal_spacing;
-    public final int vertical_spacing;
-
-    /**
-     * @param horizontal_spacing Pixels between items, horizontally
-     * @param vertical_spacing Pixels between items, vertically
-     */
-    public LayoutParams(int horizontal_spacing, int vertical_spacing) {
-      super(0, 0);
-      this.horizontal_spacing = horizontal_spacing;
-      this.vertical_spacing = vertical_spacing;
-    }
   }
 
   public FlowLayout(Context context) {
@@ -51,10 +34,10 @@ public abstract class FlowLayout extends ViewGroup {
     final int width = MeasureSpec.getSize(widthMeasureSpec) - getPaddingLeft() - getPaddingRight();
     int height = MeasureSpec.getSize(heightMeasureSpec) - getPaddingTop() - getPaddingBottom();
     final int count = getChildCount();
-    int line_height = 0;
+    int lineHeight = 0;
 
-    int xpos = getPaddingLeft();
-    int ypos = getPaddingTop();
+    int xPos = getPaddingLeft();
+    int yPos = getPaddingTop();
 
     int childHeightMeasureSpec;
     if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST) {
@@ -66,65 +49,55 @@ public abstract class FlowLayout extends ViewGroup {
     for (int i = 0; i < count; i++) {
       final View child = getChildAt(i);
       if (child.getVisibility() != GONE) {
-        final LayoutParams lp = (LayoutParams) child.getLayoutParams();
         child.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST),
             childHeightMeasureSpec);
-        final int childw = child.getMeasuredWidth();
-        line_height = Math.max(line_height, child.getMeasuredHeight() + lp.vertical_spacing);
+        final int childW = child.getMeasuredWidth();
+        lineHeight = Math.max(lineHeight, child.getMeasuredHeight() + getVerticalSpacing());
 
-        if (xpos + childw > width) {
-          xpos = getPaddingLeft();
-          ypos += line_height;
+        if (xPos + childW > width) {
+          xPos = getPaddingLeft();
+          yPos += lineHeight;
         }
 
-        xpos += childw + lp.horizontal_spacing;
+        xPos += childW + getMinimumHorizontalSpacing();
       }
     }
-    this.line_height = line_height;
+    this.lineHeight = lineHeight;
 
     if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED || (MeasureSpec.getMode(
-        heightMeasureSpec) == MeasureSpec.AT_MOST && ypos + line_height < height)) {
-      height = ypos + line_height;
+        heightMeasureSpec) == MeasureSpec.AT_MOST && yPos + lineHeight < height)) {
+      height = yPos + lineHeight;
     }
     setMeasuredDimension(width, height);
-  }
-
-  @Override protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
-    return new LayoutParams(dpToPx(7), dpToPx(7));
-  }
-
-  public static int dpToPx(int dp) {
-    return (int) (dp * Resources.getSystem().getDisplayMetrics().density + 0.5);
-  }
-
-  @Override protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
-    return p instanceof LayoutParams;
   }
 
   @Override protected void onLayout(boolean changed, int l, int t, int r, int b) {
     final int count = getChildCount();
     final int width = r - l;
-    int xpos = getPaddingLeft();
-    int ypos = getPaddingTop();
+    int xPos = getPaddingLeft();
+    int yPos = getPaddingTop();
     layoutProcessor.setWidth(width);
     for (int i = 0; i < count; i++) {
       final View child = getChildAt(i);
       if (child.getVisibility() != GONE) {
-        final int childw = child.getMeasuredWidth();
-        final int childh = child.getMeasuredHeight();
-        final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-        if (xpos + childw > width) {
-          xpos = getPaddingLeft();
-          ypos += line_height;
+        final int childW = child.getMeasuredWidth();
+        final int childH = child.getMeasuredHeight();
+        if (xPos + childW > width) {
+          xPos = getPaddingLeft();
+          yPos += lineHeight;
           layoutProcessor.layoutPreviousRow();
         }
-        layoutProcessor.addViewForLayout(child, ypos, childw, childh);
-        xpos += childw + lp.horizontal_spacing;
+        layoutProcessor.addViewForLayout(child, yPos, childW, childH);
+        xPos += childW + getMinimumHorizontalSpacing();
       }
     }
     layoutProcessor.layoutPreviousRow();
     layoutProcessor.clear();
   }
+
+  protected abstract int getMinimumHorizontalSpacing();
+
+  protected abstract int getVerticalSpacing();
 
   protected abstract Gravity getGravity();
 
@@ -134,7 +107,6 @@ public abstract class FlowLayout extends ViewGroup {
     private final List<View> viewsInCurrentRow;
     private final List<Integer> viewWidths;
     private final List<Integer> viewHeights;
-    private Integer horizontalSpacing;
     private int width;
 
     private LayoutProcessor() {
@@ -148,9 +120,6 @@ public abstract class FlowLayout extends ViewGroup {
       viewsInCurrentRow.add(view);
       viewWidths.add(childW);
       viewHeights.add(childH);
-      if (horizontalSpacing == null) {
-        horizontalSpacing = ((LayoutParams) view.getLayoutParams()).horizontal_spacing;
-      }
     }
 
     void clear() {
@@ -161,12 +130,13 @@ public abstract class FlowLayout extends ViewGroup {
 
     void layoutPreviousRow() {
       Gravity gravity = getGravity();
+      int minimumHorizontalSpacing = getMinimumHorizontalSpacing();
       switch (gravity) {
         case LEFT:
           int xPos = getPaddingLeft();
           for (int i = 0; i < viewsInCurrentRow.size(); i++) {
             viewsInCurrentRow.get(i).layout(xPos, rowY, xPos + viewWidths.get(i), rowY + viewHeights.get(i));
-            xPos += viewWidths.get(i) + horizontalSpacing;
+            xPos += viewWidths.get(i) + minimumHorizontalSpacing;
           }
           break;
         case RIGHT:
@@ -174,7 +144,7 @@ public abstract class FlowLayout extends ViewGroup {
           for (int i = viewsInCurrentRow.size() - 1; i >= 0; i--) {
             int xStart = xEnd - viewWidths.get(i);
             viewsInCurrentRow.get(i).layout(xStart, rowY, xEnd, rowY + viewHeights.get(i));
-            xEnd = xStart - horizontalSpacing;
+            xEnd = xStart - minimumHorizontalSpacing;
           }
           break;
         case STAGGERED:
@@ -196,10 +166,10 @@ public abstract class FlowLayout extends ViewGroup {
             totalWidthOfChildren += viewWidths.get(i);
           }
           xPos = getPaddingLeft() + (width - getPaddingLeft() - getPaddingRight() -
-                  totalWidthOfChildren - (horizontalSpacing * (viewsInCurrentRow.size() - 1))) / 2;
+                  totalWidthOfChildren - (minimumHorizontalSpacing * (viewsInCurrentRow.size() - 1))) / 2;
           for (int i = 0; i < viewsInCurrentRow.size(); i++) {
             viewsInCurrentRow.get(i).layout(xPos, rowY, xPos + viewWidths.get(i), rowY + viewHeights.get(i));
-            xPos += viewWidths.get(i) + horizontalSpacing;
+            xPos += viewWidths.get(i) + minimumHorizontalSpacing;
           }
           break;
       }

@@ -23,5 +23,7 @@
         <attr name="allCaps" format="boolean" />
         <attr name="textSize" format="dimension" />
         <attr name="labels" format="reference"/>
+        <attr name="minHorizontalSpacing" format="dimension" />
+        <attr name="verticalSpacing" format="dimension" />
     </declare-styleable>
 </resources>

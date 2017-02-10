@@ -352,6 +352,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         }
 
         public void build() {
+            chipCloud.removeAllViews();
             if (mode != null) chipCloud.setMode(mode);
             if (gravity != null) chipCloud.setGravity(gravity);
             if (typeface != null) chipCloud.setTypeface(typeface);
@@ -365,6 +366,17 @@ public class ChipCloud extends FlowLayout implements ChipListener {
             if (deselectTransitionMS != -1) chipCloud.setDeselectTransitionMS(deselectTransitionMS);
             chipCloud.setChipListener(chipListener);
             chipCloud.addChips(labels);
+        }
+
+        public void update() {
+            int childCount = chipCloud.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                Chip chip = (Chip) chipCloud.getChildAt(i);
+                chip.setText(labels[i]);
+                chip.invalidate();
+            }
+            chipCloud.invalidate();
+            chipCloud.requestLayout();
         }
     }
 }

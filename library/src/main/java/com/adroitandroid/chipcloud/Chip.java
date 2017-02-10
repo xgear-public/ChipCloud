@@ -1,4 +1,4 @@
-package eu.fiskur.chipcloud;
+package com.adroitandroid.chipcloud;
 
 import android.content.Context;
 import android.graphics.PorterDuff;

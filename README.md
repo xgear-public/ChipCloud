@@ -141,7 +141,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:ChipCloud:2.2.1'
+    compile 'com.github.fiskurgit:ChipCloud:2.1.0'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/ChipCloud/releases

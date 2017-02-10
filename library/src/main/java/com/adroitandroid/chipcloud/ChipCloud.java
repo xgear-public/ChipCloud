@@ -164,8 +164,8 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         this.gravity = gravity;
     }
 
-    public void setTypeface(String typeface) {
-        this.typeface = Typeface.createFromAsset(getContext().getAssets(), typeface);
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
     }
 
     public void setTextSize(int textSize) {
@@ -282,7 +282,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         private String[] labels = null;
         private ChipListener chipListener;
         private Gravity gravity = null;
-        private String typeface;
+        private Typeface typeface;
         private Boolean allCaps = null;
         private int textSize = -1;
         private int minHorizontalSpacing = -1;
@@ -343,7 +343,7 @@ public class ChipCloud extends FlowLayout implements ChipListener {
             return this;
         }
 
-        public Configure typeface(String typeface) {
+        public Configure typeface(Typeface typeface) {
             this.typeface = typeface;
             return this;
         }

@@ -1,4 +1,4 @@
-package com.adroitandroid.chipcloud;
+package eu.fiskur.chipcloud;
 
 import android.content.Context;
 import android.util.AttributeSet;

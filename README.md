@@ -1,8 +1,8 @@
 # ChipCloud
-<!---[![Release](https://jitpack.io/v/fiskurgit/ChipCloud.svg)](https://jitpack.io/#fiskurgit/ChipCloud) [![Build Status](https://travis-ci.org/fiskurgit/ChipCloud.svg?branch=master)](https://travis-ci.org/fiskurgit/ChipCloud) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/55d686ee370d494b9f7f7e6636c0c294)](https://www.codacy.com/app/fiskur/ChipCloud?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fiskurgit/ChipCloud&amp;utm_campaign=Badge_Grade) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/fiskurgit/fiskur) 
+[![Release](https://jitpack.io/v/fiskurgit/ChipCloud.svg)](https://jitpack.io/#fiskurgit/ChipCloud) [![Build Status](https://travis-ci.org/fiskurgit/ChipCloud.svg?branch=master)](https://travis-ci.org/fiskurgit/ChipCloud) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/55d686ee370d494b9f7f7e6636c0c294)](https://www.codacy.com/app/fiskur/ChipCloud?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fiskurgit/ChipCloud&amp;utm_campaign=Badge_Grade) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/fiskurgit/fiskur) 
 <a href="http://www.methodscount.com/?lib=com.github.fiskurgit%3AChipCloud%3A2.1.0"><img src="https://img.shields.io/badge/Size-27 KB-e91e63.svg"/></a>
---->
-The ChipCloud library was originally a (very) quickly knocked up Android view for some larger hackathon project by [fiskurgit](https://github.com/fiskurgit). It creates a wrapping cloud of material '[Chips](https://www.google.com/design/spec/components/chips.html)'. Basic demo of their version is [available on the Play Store](https://play.google.com/store/apps/details?id=eu.fiskur.chipclouddemo) - I'm maintaining this fork for features I required in it.
+
+ChipCloud is an Android view (very) quickly knocked up for a larger hackathon project, it creates a wrapping cloud of '[Chips](https://www.google.com/design/spec/components/chips.html)'. Basic demo is [available on the Play Store](https://play.google.com/store/apps/details?id=eu.fiskur.chipclouddemo) - the code is badly written and while I'm happy people are using it please bear in mind I have little time to maintain and refactor the source.
 
 ![Trainer Sizes](images/trainer_sizes.png)
 
@@ -10,7 +10,7 @@ The ChipCloud library was originally a (very) quickly knocked up Android view fo
 
 Add to your Android layout xml:
 ```xml
-<com.adroitandroid.chipcloud.ChipCloud
+<eu.fiskur.chipcloud.ChipCloud
     android:id="@+id/chip_cloud"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
@@ -18,7 +18,7 @@ Add to your Android layout xml:
 
 Configure in xml:  
 ```xml
-<com.adroitandroid.chipcloud.ChipCloud
+<eu.fiskur.chipcloud.ChipCloud
     xmlns:chipcloud="http://schemas.android.com/apk/res-auto"
     android:id="@+id/chip_cloud"
     android:layout_width="match_parent"
@@ -141,14 +141,16 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.adroitandroid:ChipCloud:2.2.1'
+    compile 'com.github.fiskurgit:ChipCloud:2.2.1'
 }
 ```
-You can find the latest version in the releases tab above: https://github.com/adroitandroid/ChipCloud/releases
+You can find the latest version in the releases tab above: https://github.com/fiskurgit/ChipCloud/releases
+
+More options at jitpack.io: https://jitpack.io/#fiskurgit/ChipCloud
 
 ##Licence
 
-Full licence here: https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE [remains same in my version]
+Full licence here: https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE
 
 In short:
 

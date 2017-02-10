@@ -16,7 +16,7 @@ public abstract class FlowLayout extends ViewGroup {
     private int lineHeight;
     private LayoutProcessor layoutProcessor = new LayoutProcessor();
 
-    enum Gravity {
+    public enum Gravity {
         LEFT, RIGHT, CENTER, STAGGERED
     }
 

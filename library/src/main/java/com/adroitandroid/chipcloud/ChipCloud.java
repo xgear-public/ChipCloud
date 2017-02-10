@@ -176,6 +176,14 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         this.allCaps = isAllCaps;
     }
 
+    public void setMinimumHorizontalSpacing(int spacingInPx) {
+        this.minHorizontalSpacing = spacingInPx;
+    }
+
+    public void setVerticalSpacing(int spacingInPx) {
+        this.verticalSpacing = spacingInPx;
+    }
+
     public void setChipListener(ChipListener chipListener) {
         this.chipListener = chipListener;
     }
@@ -277,6 +285,8 @@ public class ChipCloud extends FlowLayout implements ChipListener {
         private String typeface;
         private Boolean allCaps = null;
         private int textSize = -1;
+        private int minHorizontalSpacing = -1;
+        private int verticalSpacing = -1;
 
         public Configure chipCloud(ChipCloud chipCloud) {
             this.chipCloud = chipCloud;
@@ -351,6 +361,16 @@ public class ChipCloud extends FlowLayout implements ChipListener {
             return this;
         }
 
+        public Configure minHorizontalSpacing(int spacingInPx) {
+            this.minHorizontalSpacing = spacingInPx;
+            return this;
+        }
+
+        public Configure verticalSpacing(int spacingInPx) {
+            this.verticalSpacing = spacingInPx;
+            return this;
+        }
+
         public void build() {
             chipCloud.removeAllViews();
             if (mode != null) chipCloud.setMode(mode);
@@ -364,6 +384,8 @@ public class ChipCloud extends FlowLayout implements ChipListener {
             if (deselectedFontColor != -1) chipCloud.setUnselectedFontColor(deselectedFontColor);
             if (selectTransitionMS != -1) chipCloud.setSelectTransitionMS(selectTransitionMS);
             if (deselectTransitionMS != -1) chipCloud.setDeselectTransitionMS(deselectTransitionMS);
+            if (minHorizontalSpacing != -1) chipCloud.setMinimumHorizontalSpacing(minHorizontalSpacing);
+            if (verticalSpacing != -1) chipCloud.setVerticalSpacing(verticalSpacing);
             chipCloud.setChipListener(chipListener);
             chipCloud.addChips(labels);
         }

@@ -3,9 +3,12 @@ package eu.fiskur.chipcloud;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.support.v4.content.res.TypedArrayUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ToggleButton;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChipCloud extends FlowLayout implements ChipListener {
 
@@ -277,6 +280,18 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     }
 
     return selectedIndex;
+  }
+
+  public Integer[] getSelectedIndexes(){
+    List<Integer> selectedIndexes = new ArrayList<>();
+    int childCount = getChildCount();
+    for (int i = 0; i < childCount; i++) {
+      Chip chip = (Chip) getChildAt(i);
+      if(chip.isSelected()){
+        selectedIndexes.add(i);
+      }
+    }
+    return selectedIndexes.toArray(new Integer[selectedIndexes.size()]);
   }
 
   public void deleteChip(int index){

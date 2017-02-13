@@ -15,15 +15,28 @@ public class DemoActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_demo);
 
-    final ChipCloud chipCloud = (ChipCloud) findViewById(R.id.chip_cloud_a);
+    final ChipCloud chipCloudA = (ChipCloud) findViewById(R.id.chip_cloud_a);
     String[] demoLabelsA = new String[]{"UY Scuti", "WOH G64", "RW Cephei", "Westerlund 1-26", "V354 Cephei", "KY Cygni", "VY Canis Majoris"};
-    chipCloud.addChips(demoLabelsA);
+    chipCloudA.addChips(demoLabelsA);
 
     Button deleteButton = (Button) findViewById(R.id.delete_selected_button);
     deleteButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        int selectedIndex = chipCloud.getSelectedIndex();
-        chipCloud.deleteChip(selectedIndex);
+        int selectedIndex = chipCloudA.getSelectedIndex();
+        chipCloudA.deleteChip(selectedIndex);
+      }
+    });
+
+    final ChipCloud chipCloudB = (ChipCloud) findViewById(R.id.chip_cloud_b);
+    chipCloudB.addChips(demoLabelsA);
+
+    Button logSelectedButton = (Button) findViewById(R.id.log_selected_button);
+    logSelectedButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        Integer[] selectedChips = chipCloudB.getSelectedIndexes();
+        for(Integer i : selectedChips){
+          Log.d(TAG, "Selected chip: " + i);
+        }
       }
     });
   }

@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.widget.ToggleButton;
 
 public class ChipCloud extends FlowLayout implements ChipListener {
+
+  private static final String TAG = "ChipCloud";
 
   public enum Mode {
     SINGLE, MULTI, REQUIRED, NONE
@@ -90,10 +94,8 @@ public class ChipCloud extends FlowLayout implements ChipListener {
           gravity = Gravity.LEFT;
           break;
       }
-      minHorizontalSpacing = a.getDimensionPixelSize(R.styleable.ChipCloud_minHorizontalSpacing,
-          getResources().getDimensionPixelSize(R.dimen.min_horizontal_spacing));
-      verticalSpacing = a.getDimensionPixelSize(R.styleable.ChipCloud_verticalSpacing,
-          getResources().getDimensionPixelSize(R.dimen.vertical_spacing));
+      minHorizontalSpacing = a.getDimensionPixelSize(R.styleable.ChipCloud_minHorizontalSpacing, getResources().getDimensionPixelSize(R.dimen.min_horizontal_spacing));
+      verticalSpacing = a.getDimensionPixelSize(R.styleable.ChipCloud_verticalSpacing, getResources().getDimensionPixelSize(R.dimen.vertical_spacing));
       arrayReference = a.getResourceId(R.styleable.ChipCloud_labels, -1);
 
     } finally {
@@ -235,7 +237,8 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     switch (mode) {
       case SINGLE:
       case REQUIRED:
-        for (int i = 0; i < getChildCount(); i++) {
+        int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
           Chip chip = (Chip) getChildAt(i);
           if (i == index) {
             if (mode == Mode.REQUIRED) chip.setLocked(true);
@@ -251,6 +254,40 @@ public class ChipCloud extends FlowLayout implements ChipListener {
 
     if (chipListener != null) {
       chipListener.chipSelected(index);
+    }
+  }
+
+  public void logStatus(){
+    int childCount = getChildCount();
+    for (int i = 0; i < childCount; i++) {
+      Chip chip = (Chip) getChildAt(i);
+      Log.d(TAG, String.format("Chip %d: selected: %b locked: %b", i, chip.isSelected(), chip.isLocked()));
+
+    }
+  }
+
+  public int getSelectedIndex(){
+    int childCount = getChildCount();
+    int selectedIndex = -1;
+    for (int i = 0; i < childCount; i++) {
+      Chip chip = (Chip) getChildAt(i);
+      if(chip.isSelected()){
+        selectedIndex = i;
+      }
+    }
+
+    return selectedIndex;
+  }
+
+  public void deleteChip(int index){
+    if(index == -1){
+      return;
+    }
+    this.removeViewAt(index);
+    int childCount = getChildCount();
+    for (int i = 0; i < childCount; i++) {
+      Chip chip = (Chip) getChildAt(i);
+      chip.setIndex(i);
     }
   }
 

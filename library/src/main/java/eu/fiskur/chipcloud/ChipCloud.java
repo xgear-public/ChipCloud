@@ -260,6 +260,11 @@ public class ChipCloud extends FlowLayout implements ChipListener {
     }
   }
 
+  public void deselectChip(int index){
+    Chip chip = (Chip)getChildAt(index);
+    chip.deselect();
+  }
+
   public void logStatus(){
     int childCount = getChildCount();
     for (int i = 0; i < childCount; i++) {

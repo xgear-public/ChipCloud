@@ -33,10 +33,7 @@ public class DemoActivity extends AppCompatActivity {
     Button logSelectedButton = (Button) findViewById(R.id.log_selected_button);
     logSelectedButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        Integer[] selectedChips = chipCloudB.getSelectedIndexes();
-        for(Integer i : selectedChips){
-          Log.d(TAG, "Selected chip: " + i);
-        }
+        chipCloudB.deselectChip(1);
       }
     });
   }

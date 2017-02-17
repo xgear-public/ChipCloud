@@ -12,4 +12,14 @@
     android:orientation="vertical"
     tools:context="fiskur.chipcloud.demo.DemoActivity"
     >
+
+  <com.google.android.flexbox.FlexboxLayout
+    android:id="@+id/flexbox"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:flexWrap="wrap"
+    app:alignItems="flex_start"
+    app:alignContent="space_around"
+    app:showDivider="middle"
+    app:dividerDrawable="@drawable/div"/>
 </LinearLayout>

@@ -9,6 +9,7 @@ import java.util.List;
 
 import eu.fiskur.chipcloud.R;
 
+@SuppressWarnings({"unused", "SameParameterValue"})
 public class ChipCloud implements View.OnClickListener{
 
   private static final boolean USER_CLICK = true;
@@ -21,10 +22,9 @@ public class ChipCloud implements View.OnClickListener{
     none
   }
 
-  private SelectMode selectMode;
-
   private final Context context;
   private final ViewGroup layout;
+  private final SelectMode selectMode;
 
   private ChipListener chipListener;
   private boolean ignoreAutoChecks = false;
@@ -63,7 +63,7 @@ public class ChipCloud implements View.OnClickListener{
   }
 
   public void addChip(Object object){
-    ToggleChip toggleChip = (ToggleChip) LayoutInflater.from(context).inflate(R.layout.toggle_chip, null);
+    ToggleChip toggleChip = (ToggleChip) LayoutInflater.from(context).inflate(R.layout.toggle_chip, layout, false);
     toggleChip.setLabel(object.toString());
     int chipHeight = context.getResources().getDimensionPixelSize(R.dimen.chip_height);
     toggleChip.setHeight(chipHeight);

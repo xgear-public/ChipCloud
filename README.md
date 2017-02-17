@@ -1,101 +1,27 @@
-# ChipCloud
-[![Release](https://jitpack.io/v/fiskurgit/ChipCloud.svg)](https://jitpack.io/#fiskurgit/ChipCloud) [![Build Status](https://travis-ci.org/fiskurgit/ChipCloud.svg?branch=master)](https://travis-ci.org/fiskurgit/ChipCloud) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/55d686ee370d494b9f7f7e6636c0c294)](https://www.codacy.com/app/fiskur/ChipCloud?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fiskurgit/ChipCloud&amp;utm_campaign=Badge_Grade) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/fiskurgit/fiskur) 
+# ChipCloud 3
+[![Release](https://jitpack.io/v/fiskurgit/ChipCloud.svg)](https://jitpack.io/#fiskurgit/ChipCloud) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/55d686ee370d494b9f7f7e6636c0c294)](https://www.codacy.com/app/fiskur/ChipCloud?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fiskurgit/ChipCloud&amp;utm_campaign=Badge_Grade) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/fiskurgit/fiskur)
 <a href="http://www.methodscount.com/?lib=com.github.fiskurgit%3AChipCloud%3A2.1.0"><img src="https://img.shields.io/badge/Size-27 KB-e91e63.svg"/></a>
 
-##Note - complete rewrite coming soon. Please don't submit any pull requests as the entire current codebase will soon be redundant.
-
-ChipCloud is an Android view (very) quickly knocked up for a larger hackathon project, it creates a wrapping cloud of '[Chips](https://www.google.com/design/spec/components/chips.html)'. Basic demo is [available on the Play Store](https://play.google.com/store/apps/details?id=eu.fiskur.chipclouddemo) - the code is badly written and while I'm happy people are using it please bear in mind I have little time to maintain and refactor the source.
+ChipCloud 3 is a fresh rewrite of the original quickly hacked together library. The previous iteration was becoming popular as an easy replacement for a dropdown/spinner in e-commerce user interfaces, offering improved UX and more efficient use of screen real estate. The rewrite provides an improved API, a fraction of the code, and has no dependencies on other libraries. The biggest change is it's now not a View/Layout; it's a simple class that adds Chips to a supplied ViewGroup.
 
 ![Trainer Sizes](images/trainer_sizes.png)
 
 ## Usage
 
-Add to your Android layout xml:
-```xml
-<eu.fiskur.chipcloud.ChipCloud
-    android:id="@+id/chip_cloud"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
-```
-
-Configure in xml:  
-```xml
-<eu.fiskur.chipcloud.ChipCloud
-    xmlns:chipcloud="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/chip_cloud"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    chipcloud:deselectedColor="@color/deselected_color"
-    chipcloud:deselectedFontColor="@color/deselected_font_color"
-    chipcloud:selectedColor="@color/selected_color"
-    chipcloud:selectedFontColor="@color/selected_font_color"
-    chipcloud:deselectTransitionMS="500"
-    chipcloud:selectTransitionMS="750"
-    chipcloud:labels="@array/labels"
-    chipcloud:selectMode="required"
-    chipcloud:allCaps="true"
-    chipcloud:gravity="staggered"
-    chipcloud:minHorizontalSpacing="32dp"
-    chipcloud:verticalSpacing="16dp"
-    chipcloud:textSize="14sp"    
-    chipcloud:typeface="RobotoSlab-Regular.ttf"/> <!--path relative to assets folder-->
-```
-or in code:  
 ```java
-ChipCloud chipCloud = (ChipCloud) findViewById(R.id.chip_cloud);
+//To create the same wrapping cloud as previous incarnation use Google's FlexboxLayout:
+FlexboxLayout flexbox = (FlexboxLayout) findViewById(R.id.flexbox);
 
-new ChipCloud.Configure()
-        .chipCloud(chipCloud)
-        .selectedColor(Color.parseColor("#ff00cc"))
-        .selectedFontColor(Color.parseColor("#ffffff"))
-        .deselectedColor(Color.parseColor("#e1e1e1"))
-        .deselectedFontColor(Color.parseColor("#333333"))
-        .selectTransitionMS(500)
-        .deselectTransitionMS(250)
-        .labels(someStringArray)
-        .mode(ChipCloud.Mode.MULTI)
-        .allCaps(false)
-        .gravity(ChipCloud.Gravity.CENTER)
-        .textSize(getResources().getDimensionPixelSize(R.dimen.default_textsize))
-        .verticalSpacing(getResources().getDimensionPixelSize(R.dimen.vertical_spacing))
-        .minHorizontalSpacing(getResources().getDimensionPixelSize(R.dimen.min_horizontal_spacing))
-        .typeface(Typeface.createFromAsset(getContext().getAssets(), "RobotoSlab-Regular.ttf"))
-        .chipListener(new ChipListener() {
-            @Override
-            public void chipSelected(int index) {
-                //...
-            }
-            @Override
-            public void chipDeselected(int index) {
-                //...
-            }
-        })
-        .build();
+//Create a new ChipCloud with a Context and ViewGroup:
+ChipCloud chipCloud = new ChipCloud(this, flexbox);
+
+//Add a single Chip:
+chipCloud.addChip("HelloWorld!");
+
+//or pass a List or Array of any Object:
+String[] demoArray = getResources().getStringArray(R.array.demo_array);
+chipCloud.addChips(demoArray);
 ```
-
-Default value of textSize is equivalent to 13sp, of verticalSpacing is equivalent to 8dp, of minHorizontalSpacing is equivalent to 8dp, of allCaps is false.
-
-All chips have a height of 32dp and a padding of 12dp on left and right within the chip, [as per material guidelines](https://www.google.com/design/spec/components/chips.html).
-
-Add items dynamically too:
-```java
-chipCloud.addChip("Foo");
-chipCloud.addChip("Bar");
-
-//or
-
-chipCloud.addChips(someStringArray);
-```
-
-Set the selected index using ```chipCloud.setSelectedChip(2)```
-
-Real-world example for shoe sizes:  
-![Shoe Sizes](images/wrapping_example.png)
-
-Labels can also be updated in-place, e.g.
-
-from ![Before](images/label_update_before.png) to ![After](images/label_update_after.png)
-using ```update()``` as illustrated below
 
 ```java
 new ChipCloud.Configure().chipCloud(binding.chipCloud).labels(newChipLabels).update();
@@ -103,27 +29,27 @@ new ChipCloud.Configure().chipCloud(binding.chipCloud).labels(newChipLabels).upd
 
 ## Modes
 
-```java
-public enum Mode {
-  SINGLE, MULTI, REQUIRED, NONE
-}
-```
+### Multi  
+```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.multi);```
 
-The default mode is single choice (where it's valid to have no chip selected), if you want a RadioGroup manadatory style where once a chip is selected there must always be a selected item use ```chipCloud.setMode(ChipCloud.Mode.REQUIRED);``` (or set in xml or the builder). There's a multiple select mode too: ```chipCloud.setMode(ChipCloud.Mode.MULTIPLE);```. If you want to deactiviate selecting of chips you can set the select mode to ```chipCloud.setMode(ChipCloud.Mode.NONE);```.
+The default mode - multiple chips can be selected at once.
 
-## Gravity
+### Single
+```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.single);```
 
-```java
-public enum Gravity {
-  LEFT, RIGHT, CENTER, STAGGERED
-}
-```
+Only one chip can selected at a time.
 
-The default gravity is LEFT. CENTER and STAGGERED are similar except that CENTER leaves only minimum horizontal spacing between the chips whereas in STAGGERED chips occupy the available space equally while having at least minimum horizontal spacing between them.
+### Mandatory
+```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.mandatory);```
 
-| ![Left](images/gravity_left.png) | ![Right](images/gravity_right.png) | ![Center](images/gravity_center.png) | ![Staggered](images/gravity_staggered.png) |
-|:---:|:---:|:---:|:---:|
-| LEFT | RIGHT | CENTER | STAGGERED |
+Similar to a RadioGroup, only one chip can be selected, and once one has been chosen it's not possible to deselect it, you can click on another chip but one will always be selected.
+
+### None
+```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.none);```
+
+No interaction, the chips just act as feedback for a user (eg. to display a list of tags associated with a news article).
+
+![Screenshot](images/chipcloud3.png)
 
 ## Dependency
 
@@ -143,7 +69,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:ChipCloud:2.2.3'
+    compile 'com.github.fiskurgit:ChipCloud:3.0.0'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/ChipCloud/releases

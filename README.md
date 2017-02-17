@@ -30,17 +30,17 @@ chipCloud.addChips(demoArray);
 ### Multi  
 ```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.multi);```
 
-The default mode - multiple chips can be selected at once.
+The default mode; multiple chips can be selected.
 
 ### Single
 ```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.single);```
 
-Only one chip can selected at a time.
+Only one chip can be selected at a time.
 
 ### Mandatory
 ```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.mandatory);```
 
-Similar to a RadioGroup, only one chip can be selected, and once one has been chosen it's not possible to deselect it, you can click on another chip but one will always be selected.
+Similar to a RadioGroup, only one chip can be selected, and once one has been chosen it's not possible to deselect it, you can click on another chip but one will always be checked.
 
 ### None
 ```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.none);```

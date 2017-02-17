@@ -23,10 +23,6 @@ String[] demoArray = getResources().getStringArray(R.array.demo_array);
 chipCloud.addChips(demoArray);
 ```
 
-```java
-new ChipCloud.Configure().chipCloud(binding.chipCloud).labels(newChipLabels).update();
-```
-
 ## Modes
 
 ### Multi  

@@ -1,4 +1,4 @@
-package fiskur.chipcloud.demo;
+package fisk.chipclouddemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import fisk.chipcloud.ChipCloud;
 import fisk.chipcloud.ChipListener;
+import fisk.chipclouddemo.demo.R;
 
 public class DemoActivity extends AppCompatActivity {
 

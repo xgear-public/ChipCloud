@@ -2,7 +2,7 @@
 [![Release](https://jitpack.io/v/fiskurgit/ChipCloud.svg)](https://jitpack.io/#fiskurgit/ChipCloud) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/55d686ee370d494b9f7f7e6636c0c294)](https://www.codacy.com/app/fiskur/ChipCloud?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fiskurgit/ChipCloud&amp;utm_campaign=Badge_Grade) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/fiskurgit/fiskur)
 <a href="http://www.methodscount.com/?lib=com.github.fiskurgit%3AChipCloud%3A2.1.0"><img src="https://img.shields.io/badge/Size-27 KB-e91e63.svg"/></a>
 
-ChipCloud 3 is a fresh rewrite of the original quickly hacked together library. The previous iteration was becoming popular as an easy replacement for a dropdown/spinner in e-commerce user interfaces, offering improved UX and more efficient use of screen real estate. The rewrite provides an improved API, a fraction of the code, and has no dependencies on other libraries. The biggest change is it's now not a View/Layout; it's a simple class that adds Chips to a supplied ViewGroup.
+ChipCloud 3 is a fresh rewrite of the original quickly hacked together library. The previous iteration was becoming popular as an easy replacement for a dropdown/spinner, offering improved UX and more efficient use of screen real estate. The rewrite provides an improved API with a fraction of the code, and has no dependencies on other libraries. The biggest change is it's now not a View/Layout, it's a simple helper class that adds Chips to a supplied ViewGroup.
 
 ![Trainer Sizes](images/trainer_sizes.png)
 

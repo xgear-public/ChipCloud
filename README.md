@@ -25,6 +25,24 @@ String[] demoArray = getResources().getStringArray(R.array.demo_array);
 chipCloud.addChips(demoArray);
 ```
 
+## Customisation
+
+Use the ChipCloudConfig builder to customise colors, fonts, and select mode:
+
+```
+FlexboxLayout flexbox = (FlexboxLayout) findViewById(R.id.flexbox);
+
+ChipCloudConfig config = new ChipCloudConfig()
+    .selectMode(ChipCloud.SelectMode.multi)
+    .checkedChipColor(Color.parseColor("#ddaa00"))
+    .checkedTextColor(Color.parseColor("#ffffff"))
+    .uncheckedChipColor(Color.parseColor("#efefef"))
+    .uncheckedTextColor(Color.parseColor("#666666"))
+    .typeface(someCustomeTypeface);
+
+ChipCloud chipCloud = new ChipCloud(this, flexbox, config);
+```
+
 ## Modes
 
 ### Multi  
@@ -67,7 +85,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:ChipCloud:3.0.1'
+    compile 'com.github.fiskurgit:ChipCloud:3.0.2'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/ChipCloud/releases

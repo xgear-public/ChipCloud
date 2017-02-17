@@ -1,6 +1,8 @@
 package fisk.chipcloud;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,10 @@ public class ChipCloud implements View.OnClickListener{
   private final Context context;
   private final ViewGroup layout;
   private final SelectMode selectMode;
+  private Typeface typeface = null;
+  private StateListDrawable customDrawable = null;
+
+  private ChipCloudConfig config = null;
 
   private ChipListener chipListener;
   private boolean ignoreAutoChecks = false;
@@ -35,10 +41,11 @@ public class ChipCloud implements View.OnClickListener{
     selectMode = SelectMode.multi;
   }
 
-  public ChipCloud(Context context, ViewGroup layout, SelectMode selectMode){
+  public ChipCloud(Context context, ViewGroup layout, ChipCloudConfig config) {
     this.context = context;
     this.layout = layout;
-    this.selectMode = selectMode;
+    selectMode = config.selectMode;
+    this.config = config;
   }
 
   public void setListener(ChipListener chipListener){
@@ -65,6 +72,7 @@ public class ChipCloud implements View.OnClickListener{
   public void addChip(Object object){
     ToggleChip toggleChip = (ToggleChip) LayoutInflater.from(context).inflate(R.layout.toggle_chip, layout, false);
     toggleChip.setLabel(object.toString());
+    ConfigHelper.initialise(toggleChip, config);
     int chipHeight = context.getResources().getDimensionPixelSize(R.dimen.chip_height);
     toggleChip.setHeight(chipHeight);
     toggleChip.setOnClickListener(this);
@@ -154,11 +162,13 @@ public class ChipCloud implements View.OnClickListener{
 
   private void check(ToggleChip toggleChip, boolean checked, boolean isUserClick){
     toggleChip.setChecked(checked);
-    int index = layout.indexOfChild(toggleChip);
+    ConfigHelper.update(toggleChip, config);
+
     if(chipListener != null){
       if(!isUserClick && ignoreAutoChecks){
         return;
       }
+      int index = layout.indexOfChild(toggleChip);
       chipListener.chipCheckedChange(index, checked, isUserClick);
     }
   }

@@ -1,5 +1,6 @@
 package fisk.chipclouddemo;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.util.Log;
 import com.google.android.flexbox.FlexboxLayout;
 
 import fisk.chipcloud.ChipCloud;
+import fisk.chipcloud.ChipCloudConfig;
 import fisk.chipcloud.ChipListener;
 import fisk.chipclouddemo.demo.R;
 
@@ -20,7 +22,14 @@ public class DemoActivity extends AppCompatActivity {
 
     FlexboxLayout flexbox = (FlexboxLayout) findViewById(R.id.flexbox);
 
-    ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.multi);
+    ChipCloudConfig config = new ChipCloudConfig()
+        .selectMode(ChipCloud.SelectMode.multi)
+        .checkedChipColor(Color.parseColor("#ddaa00"))
+        .checkedTextColor(Color.parseColor("#ffffff"))
+        .uncheckedChipColor(Color.parseColor("#efefef"))
+        .uncheckedTextColor(Color.parseColor("#666666"));
+
+    ChipCloud chipCloud = new ChipCloud(this, flexbox, config);
 
     chipCloud.addChip("HelloWorld!");
 

@@ -46,22 +46,22 @@ ChipCloud chipCloud = new ChipCloud(this, flexbox, config);
 ## Modes
 
 ### Multi  
-```ChipCloud.SelectMode.multi```
+`ChipCloud.SelectMode.multi`
 
 The default mode; multiple chips can be selected.
 
 ### Single
-```ChipCloud.SelectMode.single```
+`ChipCloud.SelectMode.single`
 
 Only one chip can be selected at a time.
 
 ### Mandatory
-```ChipCloud.SelectMode.mandatory```
+`ChipCloud.SelectMode.mandatory`
 
 Similar to a RadioGroup, only one chip can be selected, and once one has been chosen it's not possible to deselect it, you can click on another chip but one will always be checked.
 
 ### None
-```ChipCloud.SelectMode.none```
+`ChipCloud.SelectMode.none`
 
 No interaction, the chips just act as feedback for a user (eg. to display a list of tags associated with a news article).
 

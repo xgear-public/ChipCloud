@@ -57,19 +57,19 @@ public class ChipCloud implements View.OnClickListener{
     this.ignoreAutoChecks = ignoreAutoChecks;
   }
 
-  public void addChips(Object[] objects){
-    for(Object object : objects){
+  public <T> void addChips(T[] objects){
+    for(T object : objects){
       addChip(object);
     }
   }
 
-  public void addChips(List<Object> objects){
-    for(Object object : objects){
+  public <T> void addChips(List<T> objects){
+    for(T object : objects){
       addChip(object);
     }
   }
 
-  public void addChip(Object object){
+  public <T> void addChip(T object){
     ToggleChip toggleChip = (ToggleChip) LayoutInflater.from(context).inflate(R.layout.toggle_chip, layout, false);
     toggleChip.setLabel(object.toString());
     ConfigHelper.initialise(toggleChip, config);

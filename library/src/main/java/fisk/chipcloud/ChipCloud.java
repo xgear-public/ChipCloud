@@ -79,7 +79,6 @@ public class ChipCloud implements View.OnClickListener{
       toggleChip = (ToggleChip) LayoutInflater.from(context).inflate(R.layout.toggle_chip, layout, false);
       chipHeight = context.getResources().getDimensionPixelSize(R.dimen.chip_height);
     }
-
     toggleChip.setLabel(object.toString());
     ConfigHelper.initialise(toggleChip, config);
     toggleChip.setHeight(chipHeight);

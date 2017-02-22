@@ -1,8 +1,7 @@
-# ChipCloud3
+# ChipCloud 3
 [![Release](https://jitpack.io/v/fiskurgit/ChipCloud.svg)](https://jitpack.io/#fiskurgit/ChipCloud) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/fiskurgit/ChipCloud/blob/master/LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/55d686ee370d494b9f7f7e6636c0c294)](https://www.codacy.com/app/fiskur/ChipCloud?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fiskurgit/ChipCloud&amp;utm_campaign=Badge_Grade) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/fiskurgit/fiskur)
-<a href="http://www.methodscount.com/?lib=com.github.fiskurgit%3AChipCloud%3A2.1.0"><img src="https://img.shields.io/badge/Size-27 KB-e91e63.svg"/></a>
 
-ChipCloud 3 is a fresh rewrite of the original quickly hacked together library. The previous iteration was becoming popular as an easy replacement for a dropdown/spinner with improved UX and more efficient use of screen real estate. ChipCloud3 has an improved API with a fraction of the code, and has no dependencies on other libraries. The biggest change is it's now not a View/Layout, it's a simple helper class that adds Chips to a supplied ViewGroup.
+ChipCloud 3 is a fresh rewrite of the original quickly hacked together library. The previous iteration was becoming popular as an easy replacement for a dropdown/spinner with improved UX and more efficient use of screen real estate. ChipCloud 3 has an improved API with a fraction of the code. The biggest change is it's now not a custom Layout, it's a simple helper class that adds Chips to a supplied ViewGroup, complex layout is delegated to dedicated layout libraries such as FlexboxLayout.
 
 ![Trainer Sizes](images/trainer_sizes.png)
 
@@ -25,25 +24,43 @@ String[] demoArray = getResources().getStringArray(R.array.demo_array);
 chipCloud.addChips(demoArray);
 ```
 
+## Customisation
+
+Use the ChipCloudConfig builder to customise colors, fonts, and select mode:
+
+```
+FlexboxLayout flexbox = (FlexboxLayout) findViewById(R.id.flexbox);
+
+ChipCloudConfig config = new ChipCloudConfig()
+    .selectMode(ChipCloud.SelectMode.multi)
+    .checkedChipColor(Color.parseColor("#ddaa00"))
+    .checkedTextColor(Color.parseColor("#ffffff"))
+    .uncheckedChipColor(Color.parseColor("#efefef"))
+    .uncheckedTextColor(Color.parseColor("#666666"))
+    .typeface(someCustomeTypeface);
+
+ChipCloud chipCloud = new ChipCloud(this, flexbox, config);
+```
+
 ## Modes
 
 ### Multi  
-```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.multi);```
+`ChipCloud.SelectMode.multi`
 
 The default mode; multiple chips can be selected.
 
 ### Single
-```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.single);```
+`ChipCloud.SelectMode.single`
 
 Only one chip can be selected at a time.
 
 ### Mandatory
-```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.mandatory);```
+`ChipCloud.SelectMode.mandatory`
 
 Similar to a RadioGroup, only one chip can be selected, and once one has been chosen it's not possible to deselect it, you can click on another chip but one will always be checked.
 
 ### None
-```ChipCloud chipCloud = new ChipCloud(this, flexbox, ChipCloud.SelectMode.none);```
+`ChipCloud.SelectMode.none`
 
 No interaction, the chips just act as feedback for a user (eg. to display a list of tags associated with a news article).
 
@@ -67,7 +84,7 @@ then add the dependency to your project build.gradle:
 ```groovy
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.fiskurgit:ChipCloud:3.0.1'
+    compile 'com.github.fiskurgit:ChipCloud:3.0.2'
 }
 ```
 You can find the latest version in the releases tab above: https://github.com/fiskurgit/ChipCloud/releases

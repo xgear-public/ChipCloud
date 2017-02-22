@@ -3,7 +3,10 @@ package fisk.chipclouddemo;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 
 import com.google.android.flexbox.FlexboxLayout;
 
@@ -49,5 +52,11 @@ public class DemoActivity extends AppCompatActivity {
         }
       }
     });
+
+    //Horizontal Scroll
+    LinearLayout horizontalScroll = (LinearLayout) findViewById(R.id.horizontal_layout);
+    config.useInsetPadding = true;
+    ChipCloud horizontalChipCloud = new ChipCloud(this, horizontalScroll, config);
+    horizontalChipCloud.addChips(demoArray);
   }
 }

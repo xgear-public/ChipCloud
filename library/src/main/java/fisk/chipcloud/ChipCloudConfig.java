@@ -10,6 +10,7 @@ public class ChipCloudConfig {
   public int checkedTextColor = -1;
   public int uncheckedTextColor = -1;
   public ChipCloud.SelectMode selectMode = ChipCloud.SelectMode.multi;
+  public boolean useInsetPadding = false;
 
   public ChipCloudConfig(){
   }
@@ -41,6 +42,11 @@ public class ChipCloudConfig {
 
   public ChipCloudConfig selectMode(ChipCloud.SelectMode selectMode){
     this.selectMode = selectMode;
+    return this;
+  }
+
+  public ChipCloudConfig useInsetPadding(boolean useInsetPadding){
+    this.useInsetPadding = useInsetPadding;
     return this;
   }
 }

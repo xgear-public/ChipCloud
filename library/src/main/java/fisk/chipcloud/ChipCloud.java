@@ -162,6 +162,10 @@ public class ChipCloud implements View.OnClickListener{
         }
         break;
       case none:
+        if(chipListener != null) {
+          chipListener.chipCheckedChange(layout.indexOfChild(clickedChip), clickedChip.isChecked(), USER_CLICK);
+        }
+        break;
       default:
         //do nothing
     }
